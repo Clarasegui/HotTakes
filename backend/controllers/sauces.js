@@ -1,5 +1,6 @@
+const e = require("express");
 const Sauce = require("../models/sauces");
-const fs = require('../node_modules/fs');
+const fs = require('fs');
 
 // Ajout d'une sauce
 exports.createSauce = (req, res, next) => {
@@ -22,7 +23,6 @@ exports.createSauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => {
-            console.log(sauce);
             if (sauce.userId != req.auth.userId) {
                 res.status(401).json({ message: 'Non authorisé' });
             } else {
