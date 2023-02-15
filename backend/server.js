@@ -1,6 +1,20 @@
+// Création de la constante http
 const http = require('http');
+
+// Création de la constante app
 const app = require('./app');
 
+// Création de la constante server
+const server = http.createServer(app);
+
+// Importation de dotenv
+const dotenv = require("dotenv");
+dotenv.config();
+
+// Création de la constante MY_PORT
+const MY_PORT = process.env.PORT;
+
+// Création de la constante normalizePort
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -13,7 +27,7 @@ const normalizePort = val => {
   return false;
 };
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(MY_PORT || '3000');
 app.set('port', port);
 
 const errorHandler = error => {
@@ -35,8 +49,6 @@ const errorHandler = error => {
       throw error;
   }
 };
-
-const server = http.createServer(app);
 
 server.on('error', errorHandler);
 server.on('listening', () => {

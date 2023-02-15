@@ -10,23 +10,22 @@ const bodyParser = require('body-parser');
 // Importation de Mongoose
 const mongoose = require('mongoose');
 
-// Importation du modèle Thing
-const Sauce = require('./models/sauces');
+// Importation de dotenv
+const dotenv = require("dotenv");
+dotenv.config();
 
 // Importation du modèle path
 const path = require('path');
 
 // Connection à la base de données Mongoose
-mongoose.connect('mongodb+srv://hot-takes-backend:7GUtRpIeDCfCG28G@clara-segui-hot-takes.5u3vrwd.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect(
+  `mongodb+srv://${process.env.MONGODB_CONNECT}`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
-
-const userRoutes = require('./routes/user');
-const saucesRoutes = require('./routes/sauces');
 
 app.use(bodyParser.json());
 
@@ -37,6 +36,9 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
+const userRoutes = require('./routes/user');
+const saucesRoutes = require('./routes/sauces');
 
 app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
